@@ -1,0 +1,17 @@
+#端口  
+server:  
+  port: 8082
+  context-path: /job2
+  
+ 
+  
+  
+spring:
+  application:
+    name: test-job2
+
+
+regCenter:
+  serverList: localhost:2181
+  namespace: elastic-job-lite-springboot
+  
