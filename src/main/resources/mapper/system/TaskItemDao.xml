@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.zyh.springcloud.jobtest.dao.system.TaskItemDao">
+    <select id="getTaskItem" resultType="com.zyh.springcloud.jobtest.model.system.TaskItem">
+        select * from t_taskitem where id = #{id}
+    </select>
+    
+    <select id="getTaskItems" resultType="com.zyh.springcloud.jobtest.model.system.TaskItem">
+    	select * from t_taskitem
+    </select>
+    
+    <select id="findPersonBy" resultType="com.zyh.springcloud.jobtest.model.system.TaskItem">
+    	select * from person
+    	<where>
+    		<if test="per != null">
+    		<if test="per.id != null">
+    			and id = #{per.id}
+    		</if>
+    		<if test="per.name != null">
+    			and name = #{per.name}
+    		</if>
+    		</if>
+    	</where>
+    	order by id
+    </select>
+    
+    <select id="countPersonBy" resultType="java.lang.Integer">
+    	select count(1) from person
+    	<where>
+    		<if test="per.id != null">
+    			and id = #{per.id}
+    		</if>
+    		<if test="per.name != null">
+    			and name = #{per.name}
+    		</if>
+    	</where>
+    </select>
+    
+    <select id="getPerson" resultType="com.zyh.springcloud.jobtest.model.system.TaskItem">
+    	select * from person
+    	<where>
+    		<if test="per.id != null">
+    			and id = #{per.id}
+    		</if>
+    		<if test="per.name != null">
+    			and name = #{per.name}
+    		</if>
+    	</where>
+    </select>
+    
+    
+    
+	<insert id="submitItem"  parameterType="java.util.List">
+	    insert into person (
+	    id,
+	    name,
+	    birthday
+	    )
+	    values
+	    <foreach collection="list" item="item" index="index" separator="," >
+	     (
+	        #{item.id,jdbcType=VARCHAR},
+	        #{item.name,jdbcType=VARCHAR},
+	        #{item.birthday,jdbcType=VARCHAR}
+	     )
+	    </foreach>
+	</insert>
+</mapper>

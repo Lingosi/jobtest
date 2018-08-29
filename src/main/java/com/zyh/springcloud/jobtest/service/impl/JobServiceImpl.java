@@ -1,5 +1,6 @@
 package com.zyh.springcloud.jobtest.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,13 @@ public class JobServiceImpl implements JobService{
 	@Autowired
 	ZookeeperRegistryCenter zookeeperRegistryCenter;
 
-	public void addJob(String jobName, String jobClass, String jobCorn) {
+	public void addJob(String jobName, String jobClass, String jobCorn, String jobParameter) {
 		try {
-			JobCoreConfiguration jobCoreConfiguration = JobCoreConfiguration.newBuilder(jobName, jobCorn, 1).jobParameter("123?aaa").shardingItemParameters("0=id:1&name:张三").build();
+			if(StringUtils.isEmpty(jobName) || StringUtils.isEmpty(jobClass) || StringUtils.isEmpty(jobCorn)){
+				System.out.println("定时任务缺少参数，不生效");
+				return;
+			}
+			JobCoreConfiguration jobCoreConfiguration = JobCoreConfiguration.newBuilder(jobName, jobCorn, 1).jobParameter(jobParameter).shardingItemParameters("0=id:1&name:张三").build();
 	        SimpleJobConfiguration simpleJobConfiguration = new SimpleJobConfiguration(jobCoreConfiguration, getClass(jobClass).getCanonicalName());
 	        
 	        JobScheduler jobScheduler = new JobScheduler(zookeeperRegistryCenter, LiteJobConfiguration.newBuilder(simpleJobConfiguration).build());
@@ -45,5 +50,4 @@ public class JobServiceImpl implements JobService{
 		}
 		return true;
 	}
-
 }

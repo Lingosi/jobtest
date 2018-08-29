@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.zyh.springcloud.jobtest.command.ApplicationInitner;
 import com.zyh.springcloud.jobtest.command.ApplicationStartup;
+import com.zyh.springcloud.jobtest.config.EnableMybatisPlus;
 
 @SpringBootApplication
+@EnableMybatisPlus
 public class JobTestApplication {
     public static void main(String[] args){
     	SpringApplication sa = new SpringApplication(JobTestApplication.class);
